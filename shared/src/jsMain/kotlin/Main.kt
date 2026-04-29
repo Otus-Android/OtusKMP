@@ -25,12 +25,8 @@ fun main() {
             Button(attrs = { onClick { viewModel.onStopClicked() } }) {
                 Text("Stop")
             }
-
-            // Кнопка для Задания 2 (Копирование в JS)
             Button(attrs = {
-                onClick {
-                    window.navigator.clipboard.writeText(uiState.formattedTime)
-                }
+                onClick { viewModel.onCopyClicked() }
             }) {
                 Text("Copy")
             }
