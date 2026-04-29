@@ -3,6 +3,8 @@ import org.jetbrains.kotlin.gradle.dsl.JvmTarget
 plugins {
     alias(libs.plugins.kotlinMultiplatform)
     alias(libs.plugins.androidLibrary)
+    alias(libs.plugins.composeMultiplatform)
+    alias(libs.plugins.compose.compiler)
 }
 
 kotlin {
@@ -28,12 +30,22 @@ kotlin {
         }
     }
 
+    js(IR) {
+        browser()
+        binaries.executable()
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.coroutines)
+            implementation(compose.runtime)
         }
         commonTest.dependencies {
             implementation(libs.kotlin.test)
+        }
+        jsMain.dependencies {
+            implementation(compose.html.core)
+            implementation(compose.runtime)
         }
     }
 }

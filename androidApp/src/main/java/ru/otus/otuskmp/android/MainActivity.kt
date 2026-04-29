@@ -19,13 +19,18 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalClipboard
+import androidx.compose.ui.platform.LocalClipboardManager
+import androidx.compose.ui.text.AnnotatedString
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.otuskmp.StopwatchViewModel
+import com.example.otuskmp.initClipboard
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+        initClipboard(this)
         setContent {
             MyApplicationTheme {
                 Surface(
@@ -70,6 +75,11 @@ fun StopWatchContent(modifier: Modifier = Modifier) {
                 onClick = viewModel::onStopClicked
             ) {
                 Text("Stop")
+            }
+            TextButton(
+                onClick = viewModel::onCopyClicked
+            ) {
+                Text("Copy")
             }
         }
     }

@@ -37,6 +37,10 @@ class StopwatchViewModel {
         coroutineScope.cancel()
     }
 
+    fun onCopyClicked() {
+        copyToClipboard(_uiState.value.formattedTime)
+    }
+
     private fun startTimer() {
         if (job?.isActive == true) return
 
