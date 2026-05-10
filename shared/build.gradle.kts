@@ -28,6 +28,10 @@ kotlin {
         }
     }
 
+    js(IR) {
+        browser()
+    }
+
     sourceSets {
         commonMain.dependencies {
             api(libs.kotlinx.coroutines)
