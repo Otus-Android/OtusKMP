@@ -1,5 +1,5 @@
 import SwiftUI
-import shared
+import UIKit
 
 struct ContentView: View {
     @StateObject var viewModel = StopwatchViewModelWrapper()
@@ -15,6 +15,9 @@ struct ContentView: View {
                 })
                 Button(action: viewModel.onStopClicked, label: {
                     Text("Stop")
+                })
+                Button(action: viewModel.onCopyClicked, label: {
+                    Text("Copy")
                 })
             }
         }
@@ -33,6 +36,10 @@ class StopwatchViewModelWrapper: ObservableObject {
     
     func onStopClicked() {
         viewModel.onStopClicked()
+    }
+
+    func onCopyClicked() {
+        UIPasteboard.general.string = uiState.formattedTime
     }
     
     init() {
