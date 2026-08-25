@@ -16,6 +16,10 @@ kotlin {
         }
     }
 
+    js(IR) {
+        browser()
+    }
+
     listOf(
         iosX64(),
         iosArm64(),

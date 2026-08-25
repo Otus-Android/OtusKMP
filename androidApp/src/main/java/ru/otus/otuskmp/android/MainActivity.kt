@@ -1,5 +1,6 @@
 package ru.otus.otuskmp.android
 
+import android.content.ClipData
 import android.os.Bundle
 import androidx.activity.ComponentActivity
 import androidx.activity.compose.setContent
@@ -17,11 +18,15 @@ import androidx.compose.runtime.DisposableEffect
 import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
+import androidx.compose.runtime.rememberCoroutineScope
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.ClipEntry
+import androidx.compose.ui.platform.LocalClipboard
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import com.example.otuskmp.StopwatchViewModel
+import kotlinx.coroutines.launch
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -44,6 +49,8 @@ fun StopWatchContent(modifier: Modifier = Modifier) {
     // fixme: Use jetpack ViewModel for handling configuration changes
     val viewModel = remember { StopwatchViewModel() }
     val uiState by viewModel.uiState.collectAsState()
+    val clipboard = LocalClipboard.current
+    val coroutineScope = rememberCoroutineScope()
 
     DisposableEffect(Unit) {
         onDispose {
@@ -70,6 +77,22 @@ fun StopWatchContent(modifier: Modifier = Modifier) {
                 onClick = viewModel::onStopClicked
             ) {
                 Text("Stop")
+            }
+            TextButton(
+                onClick = {
+                    coroutineScope.launch {
+                        clipboard.setClipEntry(
+                            ClipEntry(
+                                ClipData.newPlainText(
+                                    "Stopwatch time",
+                                    uiState.formattedTime
+                                )
+                            )
+                        )
+                    }
+                }
+            ) {
+                Text("Copy")
             }
         }
     }
