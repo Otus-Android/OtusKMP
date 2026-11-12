@@ -16,4 +16,5 @@ dependencyResolutionManagement {
 
 rootProject.name = "OtusKMP"
 include(":androidApp")
+include(":webApp")
 include(":shared")
