@@ -6,6 +6,10 @@ plugins {
 }
 
 kotlin {
+    js {
+        browser()
+    }
+
     androidTarget {
         compilations.all {
             compileTaskProvider.configure {
