@@ -19,8 +19,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
+import androidx.compose.ui.platform.LocalContext
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
+import com.example.otuskmp.AndroidStopwatchClipboard
 import com.example.otuskmp.StopwatchViewModel
 
 class MainActivity : ComponentActivity() {
@@ -42,7 +44,10 @@ class MainActivity : ComponentActivity() {
 @Composable
 fun StopWatchContent(modifier: Modifier = Modifier) {
     // fixme: Use jetpack ViewModel for handling configuration changes
-    val viewModel = remember { StopwatchViewModel() }
+    val context = LocalContext.current
+    val viewModel = remember { StopwatchViewModel(
+        clipboard = AndroidStopwatchClipboard(context = context)
+    ) }
     val uiState by viewModel.uiState.collectAsState()
 
     DisposableEffect(Unit) {
@@ -70,6 +75,11 @@ fun StopWatchContent(modifier: Modifier = Modifier) {
                 onClick = viewModel::onStopClicked
             ) {
                 Text("Stop")
+            }
+            TextButton(
+                onClick = viewModel::onCopyClicked
+            ) {
+                Text("Copy")
             }
         }
     }

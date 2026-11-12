@@ -13,7 +13,9 @@ import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 import kotlinx.coroutines.flow.update
 
-class StopwatchViewModel {
+class StopwatchViewModel(
+    private val clipboard: StopwatchClipboard
+) {
     private val coroutineScope = CoroutineScope(SupervisorJob() + Dispatchers.Main.immediate)
     private var job: Job? = null
 
@@ -35,6 +37,12 @@ class StopwatchViewModel {
 
     fun onDestroy() {
         coroutineScope.cancel()
+    }
+
+    fun onCopyClicked() {
+        clipboard.copyText(
+            _uiState.value.formattedTime
+        )
     }
 
     private fun startTimer() {

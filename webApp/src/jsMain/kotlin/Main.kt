@@ -4,6 +4,7 @@ import androidx.compose.runtime.collectAsState
 import androidx.compose.runtime.getValue
 import androidx.compose.runtime.remember
 import androidx.compose.ui.ExperimentalComposeUiApi
+import com.example.otuskmp.JsStopwatchClipboard
 import org.jetbrains.compose.web.css.AlignItems
 import org.jetbrains.compose.web.css.DisplayStyle
 import org.jetbrains.compose.web.css.JustifyContent
@@ -30,7 +31,11 @@ fun main() {
 
 @Composable
 fun StopWatchContent() {
-    val viewModel = remember { StopwatchViewModel() }
+    val viewModel = remember {
+        StopwatchViewModel(
+            clipboard = JsStopwatchClipboard()
+        )
+    }
     val uiState by viewModel.uiState.collectAsState()
 
     DisposableEffect(viewModel) {
@@ -78,6 +83,14 @@ fun StopWatchContent() {
                 }
             ) {
                 Text("Stop")
+            }
+
+            Button(
+                attrs = {
+                    onClick { viewModel.onCopyClicked() }
+                }
+            ) {
+                Text("Copy")
             }
         }
     }
